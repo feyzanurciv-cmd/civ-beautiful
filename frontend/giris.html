@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Giriş & Kayıt</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="form-box">
+
+<h1 id="baslik">Giriş Yap</h1>
+
+<input type="text" id="adsoyad" placeholder="Ad Soyad" style="display:none;">
+
+<input type="email" id="email" placeholder="E-posta">
+
+<input type="password" id="sifre" placeholder="Şifre">
+
+<button id="buton" onclick="girisYap()">
+Giriş Yap
+</button>
+
+<p style="margin-top:20px;text-align:center;cursor:pointer;color:#e11d48;"
+onclick="modDegistir()" id="degistirText">
+Hesabın yok mu? Kayıt Ol
+</p>
+
+</div>
+
+<script>
+
+let kayitModu = false;
+
+function modDegistir(){
+
+kayitModu = !kayitModu;
+
+if(kayitModu){
+
+document.getElementById("baslik").innerText = "Kayıt Ol";
+
+document.getElementById("buton").innerText = "Kayıt Ol";
+
+document.getElementById("adsoyad").style.display = "block";
+
+document.getElementById("degistirText").innerText =
+"Zaten hesabın var mı? Giriş Yap";
+
+}else{
+
+document.getElementById("baslik").innerText = "Giriş Yap";
+
+document.getElementById("buton").innerText = "Giriş Yap";
+
+document.getElementById("adsoyad").style.display = "none";
+
+document.getElementById("degistirText").innerText =
+"Hesabın yok mu? Kayıt Ol";
+
+}
+
+}
+
+function girisYap(){
+
+let email = document.getElementById("email").value;
+
+let sifre = document.getElementById("sifre").value;
+
+if(email == "" || sifre == ""){
+
+alert("Bilgileri doldurun");
+
+return;
+
+}
+
+if(kayitModu){
+
+let adsoyad = document.getElementById("adsoyad").value;
+
+let kullanici = {
+adsoyad: adsoyad,
+email: email,
+sifre: sifre
+};
+
+localStorage.setItem("kullanici",
+JSON.stringify(kullanici));
+
+alert("Kayıt başarılı ❤️");
+
+}else{
+
+let kullanici =
+JSON.parse(localStorage.getItem("kullanici"));
+
+if(kullanici &&
+kullanici.email == email &&
+kullanici.sifre == sifre){
+
+alert("Giriş başarılı ❤️");
+
+window.location.href = "index.html";
+
+}else{
+
+alert("E-posta veya şifre yanlış");
+
+}
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
